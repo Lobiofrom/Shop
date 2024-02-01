@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.const_vals.FIRST_RUN
 import com.example.feature_basket.ui.BasketScreen
 import com.example.feature_catalogue.ui.CatalogueScreen
 import com.example.feature_discounts.ui.DiscountsScreen
@@ -17,14 +18,17 @@ fun Navigation(
     navHostController: NavHostController,
     onClick: () -> Unit,
     modifier: Modifier,
-    sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences,
+    startDestination: String
 ) {
     NavHost(
-        navController = navHostController, startDestination = "start",
+        navController = navHostController, startDestination = startDestination,
         modifier = modifier
     ) {
         composable(route = "start") {
-            StartScreen()
+            StartScreen(
+                sharedPreferences = sharedPreferences
+            )
         }
         composable(
             route = "catalogue"

@@ -1,6 +1,7 @@
 package com.example.shop.presentation
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.const_vals.FIRST_RUN
 import com.example.const_vals.NAME
 
 @Composable
@@ -30,6 +32,20 @@ fun MyApp(
         "mainScreen"
     }
 
+    var startDestination2 by remember {
+        mutableStateOf("")
+    }
+    val firstRun = sharedPrefs.getString(FIRST_RUN, "")
+
+    Log.d("firstRun", "firstRun=======$firstRun")
+
+    startDestination2 = if (firstRun.isNullOrEmpty()) {
+        "start"
+    } else {
+        "catalogue"
+    }
+
+
     NavHost(
         navController = navController, startDestination = startDestination
     ) {
@@ -37,6 +53,18 @@ fun MyApp(
             Onboarding(
                 modifier = modifier,
                 onClick = {
+                    val firstRun2 = sharedPrefs.getString(FIRST_RUN, "")
+
+                    Log.d("firstRun2", "firstRun2=======$firstRun2")
+
+                    if (firstRun2.isNullOrEmpty()) {
+                        startDestination2 = "start"
+                        val editor = sharedPrefs.edit()
+                        editor.putString(FIRST_RUN, "firstRun")
+                        editor.apply()
+                    } else {
+                        startDestination2 = "catalogue"
+                    }
                     navController.navigate("mainScreen") {
                         popUpTo("onBoarding") {
                             inclusive = true
@@ -56,7 +84,8 @@ fun MyApp(
                             inclusive = true
                         }
                     }
-                }
+                },
+                startDestination = startDestination2
             )
         }
     }

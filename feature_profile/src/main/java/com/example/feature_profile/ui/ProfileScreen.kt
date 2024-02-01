@@ -26,9 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.const_vals.FIRST_RUN
 import com.example.const_vals.NAME
 import com.example.const_vals.SURNAME
-import com.example.const_vals.TELNUMBER
+import com.example.const_vals.TEL_NUMBER
 import com.example.feature_profile.R
 
 @Composable
@@ -38,7 +39,7 @@ fun ProfileScreen(
 ) {
     val name = sharedPreferences.getString(NAME, "")
     val surname = sharedPreferences.getString(SURNAME, "")
-    val number = sharedPreferences.getString(TELNUMBER, "")
+    val number = sharedPreferences.getString(TEL_NUMBER, "")
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -446,9 +447,10 @@ fun ProfileScreen(
                 .clickable {
                     onClick()
                     val editor = sharedPreferences.edit()
+                    editor.putString(FIRST_RUN, "")
                     editor.putString(NAME, "")
                     editor.putString(SURNAME, "")
-                    editor.putString(TELNUMBER, "")
+                    editor.putString(TEL_NUMBER, "")
                     editor.apply()
                 }
         ) {

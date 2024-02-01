@@ -5,9 +5,7 @@ import android.content.SharedPreferences
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +35,8 @@ import com.example.shop.bottom_navigation.Navigation
 fun MainScreen(
     modifier: Modifier,
     onClick: () -> Unit,
-    sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences,
+    startDestination: String
 ) {
     val navController = rememberNavController()
     val naviItems = listOf(
@@ -75,6 +74,11 @@ fun MainScreen(
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
+
+    if (startDestination == "catalogue") {
+        selectedItemIndex = 1
+    }
+
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
@@ -131,7 +135,8 @@ fun MainScreen(
                 navHostController = navController,
                 onClick = onClick,
                 modifier = Modifier.padding(innerPadding),
-                sharedPreferences = sharedPreferences
+                sharedPreferences = sharedPreferences,
+                startDestination = startDestination
             )
         }
     }

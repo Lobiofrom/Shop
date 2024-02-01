@@ -1,6 +1,7 @@
 package com.example.shop.presentation
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,9 +33,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.const_vals.FIRST_RUN
 import com.example.const_vals.NAME
 import com.example.const_vals.SURNAME
-import com.example.const_vals.TELNUMBER
+import com.example.const_vals.TEL_NUMBER
 import com.example.shop.R
 import com.example.shop.utils.PhoneField
 
@@ -45,6 +47,8 @@ fun Onboarding(
     sharedPreferences: SharedPreferences,
     onClick: () -> Unit
 ) {
+    val test = sharedPreferences.getString(FIRST_RUN,"")
+    Log.d("test", "test========$test")
     Box(modifier = modifier.fillMaxSize()) {
         Text(
             text = "Вход",
@@ -168,8 +172,13 @@ fun Onboarding(
                     val editor = sharedPreferences.edit()
                     editor.putString(NAME, name)
                     editor.putString(SURNAME, surname)
-                    val formattedNumber = "+7-(${phoneNumber.substring(0, 3)})${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6, 8)}-${phoneNumber.substring(8)}"
-                    editor.putString(TELNUMBER, formattedNumber)
+                    val formattedNumber = "+7-(${phoneNumber.substring(0, 3)})${
+                        phoneNumber.substring(
+                            3,
+                            6
+                        )
+                    }-${phoneNumber.substring(6, 8)}-${phoneNumber.substring(8)}"
+                    editor.putString(TEL_NUMBER, formattedNumber)
                     editor.apply()
                     onClick()
                 },
