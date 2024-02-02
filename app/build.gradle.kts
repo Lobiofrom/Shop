@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -79,15 +78,10 @@ dependencies {
 
 
     //Koin
-    implementation (libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.compose)
     //Leak canary
     debugImplementation(libs.leakcanary.android)
-    //Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    //Coil
-    implementation(libs.coil.compose)
+
     //Navi
     implementation(libs.androidx.navigation.compose)
 

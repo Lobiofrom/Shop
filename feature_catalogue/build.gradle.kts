@@ -62,8 +62,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Navi
-    implementation(libs.androidx.navigation.compose)
     //Koin
     implementation (libs.koin.androidx.compose)
     //Coil

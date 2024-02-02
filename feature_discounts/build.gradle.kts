@@ -54,6 +54,5 @@ dependencies {
 
 
     implementation(libs.androidx.ui.tooling.preview)
-    //Navi
-    implementation(libs.androidx.navigation.compose)
+
 }
