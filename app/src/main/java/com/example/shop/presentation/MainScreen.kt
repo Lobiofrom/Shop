@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.shop.R
 import com.example.shop.bottom_navigation.BottomNaviItem
@@ -96,13 +98,18 @@ fun MainScreen(
                         contentColor = MaterialTheme.colorScheme.background,
                     ) {
                         naviItems.forEachIndexed { index, bottomNaviItem ->
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
+                            val selected = currentDestination?.hierarchy?.any {
+                                it.route == bottomNaviItem.route
+                            } == true
                             NavigationBarItem(
                                 colors = NavigationBarItemDefaults.colors(
                                     selectedIconColor = Color(android.graphics.Color.parseColor("#D62F89")),
                                     selectedTextColor = Color(android.graphics.Color.parseColor("#D62F89")),
                                     indicatorColor = Color.White
                                 ),
-                                selected = selectedItemIndex == index,
+                                selected = selected,
                                 onClick = {
                                     selectedItemIndex = index
                                     navController.navigate(bottomNaviItem.route) {

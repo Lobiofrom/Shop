@@ -350,6 +350,7 @@ fun CatalogueScreen(
         item?.let {
             DetailScreen(
                 item = it,
+                catalogueViewModel = catalogueViewModel,
                 onBackClick = {
                     showCatalogueScreen = true
                 }

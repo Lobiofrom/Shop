@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,25 +47,41 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.database.domain.models.ItemFromDb
 import com.example.feature_catalogue.R
 import com.example.feature_catalogue.domain.models.Item
+import com.example.feature_catalogue.viewmodel.CatalogueViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(
     item: Item,
+    catalogueViewModel: CatalogueViewModel,
     onBackClick: () -> Unit
 ) {
+    var listFromDb by remember {
+        mutableStateOf<List<ItemFromDb>>(emptyList())
+    }
+    LaunchedEffect(key1 = catalogueViewModel.itemList) {
+        catalogueViewModel.itemList.collect {
+            listFromDb = it
+        }
+    }
     Box(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.padding(6.dp)
         ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp)
+            ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.back),
+                    painter = painterResource(id = R.drawable.back_arrow),
                     contentDescription = "delete recipe",
                     tint = Color.Black,
                     modifier = Modifier
+                        .padding(6.dp)
                         .align(Alignment.CenterStart)
                         .clickable {
                             onBackClick()
@@ -75,6 +92,7 @@ fun DetailScreen(
                     contentDescription = "delete recipe",
                     tint = Color.Black,
                     modifier = Modifier
+                        .padding(6.dp)
                         .align(Alignment.CenterEnd)
                         .height(24.dp)
                         .width(24.dp)
@@ -170,15 +188,35 @@ fun DetailScreen(
                                 )
                             }
                         }
-                        Icon(
-                            painter = painterResource(id = R.drawable.empty_heart),
+                        AsyncImage(
+                            model = if (listFromDb.any {
+                                    it.id == item.id
+                                }) R.drawable.red_heart else R.drawable.empty_heart,
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(6.dp)
+                                .padding(1.dp)
                                 .width(24.dp)
                                 .height(24.dp)
-                                .clickable { }
+                                .clickable {
+                                    val foundItem = listFromDb.find {
+                                        it.id == item.id
+                                    }
+                                    if (foundItem == null) {
+                                        catalogueViewModel.upsertItemToDb(
+                                            id = item.id,
+                                            oldPrice = item.price.price,
+                                            newPrice = item.price.priceWithDiscount,
+                                            discount = item.price.discount.toString(),
+                                            title = item.title,
+                                            subtitle = item.subtitle,
+                                            rating = item.feedback.rating.toString(),
+                                            feedBackCount = item.feedback.count.toString()
+                                        )
+                                    } else {
+                                        catalogueViewModel.deleteItem(foundItem)
+                                    }
+                                }
                         )
                         AsyncImage(
                             model = R.drawable.questionjpg,

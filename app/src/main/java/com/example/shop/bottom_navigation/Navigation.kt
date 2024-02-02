@@ -6,11 +6,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.const_vals.FIRST_RUN
 import com.example.feature_basket.ui.BasketScreen
 import com.example.feature_catalogue.ui.CatalogueScreen
 import com.example.feature_discounts.ui.DiscountsScreen
 import com.example.feature_profile.ui.ProfileScreen
+import com.example.feature_profile.ui.SelectionScreen
 import com.example.feature_start.ui.StartScreen
 
 @Composable
@@ -44,8 +44,12 @@ fun Navigation(
         composable(route = "profile") {
             ProfileScreen(
                 sharedPreferences = sharedPreferences,
-                onClick = onClick
+                onClick = onClick,
+                navController = navHostController
             )
+        }
+        composable(route = "selection") {
+            SelectionScreen(navController = navHostController)
         }
     }
 }

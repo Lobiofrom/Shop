@@ -1,7 +1,6 @@
 package com.example.shop.presentation
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,8 +36,6 @@ fun MyApp(
     }
     val firstRun = sharedPrefs.getString(FIRST_RUN, "")
 
-    Log.d("firstRun", "firstRun=======$firstRun")
-
     startDestination2 = if (firstRun.isNullOrEmpty()) {
         "start"
     } else {
@@ -54,8 +51,6 @@ fun MyApp(
                 modifier = modifier,
                 onClick = {
                     val firstRun2 = sharedPrefs.getString(FIRST_RUN, "")
-
-                    Log.d("firstRun2", "firstRun2=======$firstRun2")
 
                     if (firstRun2.isNullOrEmpty()) {
                         startDestination2 = "start"

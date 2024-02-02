@@ -57,4 +57,9 @@ dependencies {
     //Navi
     implementation(libs.androidx.navigation.compose)
     implementation(project(":const_vals"))
+    implementation(project(":database"))
+    //Koin
+    implementation (libs.koin.androidx.compose)
+    //Coil
+    implementation(libs.coil.compose)
 }

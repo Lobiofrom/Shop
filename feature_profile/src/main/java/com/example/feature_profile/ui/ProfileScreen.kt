@@ -15,6 +15,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,17 +31,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.const_vals.FIRST_RUN
 import com.example.const_vals.NAME
 import com.example.const_vals.SURNAME
 import com.example.const_vals.TEL_NUMBER
+import com.example.database.domain.models.ItemFromDb
 import com.example.feature_profile.R
+import com.example.feature_profile.viewmodel.ProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     sharedPreferences: SharedPreferences,
-    onClick: () -> Unit
+    profileViewModel: ProfileViewModel = koinViewModel(),
+    onClick: () -> Unit,
+    navController: NavController
 ) {
+    var listFromDb by remember {
+        mutableStateOf<List<ItemFromDb>>(emptyList())
+    }
+    LaunchedEffect(key1 = profileViewModel.itemList) {
+        profileViewModel.itemList.collect {
+            listFromDb = it
+        }
+    }
     val name = sharedPreferences.getString(NAME, "")
     val surname = sharedPreferences.getString(SURNAME, "")
     val number = sharedPreferences.getString(TEL_NUMBER, "")
@@ -144,6 +163,9 @@ fun ProfileScreen(
                         end = 8.dp,
                         bottom = 8.dp
                     )
+                    .clickable {
+                        navController.navigate("selection")
+                    }
             ) {
                 Box(
                     modifier = Modifier
@@ -176,19 +198,21 @@ fun ProfileScreen(
                             modifier = Modifier
                                 .padding(start = 6.dp)
                         )
-                        Text(
-                            text = "1 товар",
-                            style = TextStyle(
-                                fontSize = 10.sp,
-                                lineHeight = 11.sp,
-                                fontFamily = FontFamily(Font(R.font.regular)),
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFFA0A1A3),
+                        if (listFromDb.isNotEmpty()) {
+                            Text(
+                                text = "${listFromDb.size} товар",
+                                style = TextStyle(
+                                    fontSize = 10.sp,
+                                    lineHeight = 11.sp,
+                                    fontFamily = FontFamily(Font(R.font.regular)),
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFFA0A1A3),
 
-                                ),
-                            modifier = Modifier
-                                .padding(start = 6.dp)
-                        )
+                                    ),
+                                modifier = Modifier
+                                    .padding(start = 6.dp)
+                            )
+                        }
                     }
 
                     Image(
@@ -452,6 +476,7 @@ fun ProfileScreen(
                     editor.putString(SURNAME, "")
                     editor.putString(TEL_NUMBER, "")
                     editor.apply()
+                    profileViewModel.clearDb()
                 }
         ) {
             Box(

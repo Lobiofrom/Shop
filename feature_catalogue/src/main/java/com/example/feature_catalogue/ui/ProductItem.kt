@@ -1,5 +1,6 @@
 package com.example.feature_catalogue.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,6 +25,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,15 +46,28 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.database.domain.models.ItemFromDb
 import com.example.feature_catalogue.R
 import com.example.feature_catalogue.domain.models.Item
+import com.example.feature_catalogue.viewmodel.CatalogueViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductItem(
     item: Item,
+    catalogueViewModel: CatalogueViewModel = koinViewModel(),
     onItemClick: () -> Unit
 ) {
+
+    var listFromDb by remember {
+        mutableStateOf<List<ItemFromDb>>(emptyList())
+    }
+    LaunchedEffect(key1 = catalogueViewModel.itemList) {
+        catalogueViewModel.itemList.collect {
+            listFromDb = it
+        }
+    }
 
     val pictures1 = listOf(
         R.drawable.razor,
@@ -149,15 +168,35 @@ fun ProductItem(
                     )
                 }
             }
-            Icon(
-                painter = painterResource(id = R.drawable.empty_heart),
+            AsyncImage(
+                model = if (listFromDb.any {
+                        it.id == item.id
+                    }) R.drawable.red_heart else R.drawable.empty_heart,
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(1.dp)
                     .width(24.dp)
                     .height(24.dp)
-                    .clickable { }
+                    .clickable {
+                        val foundItem = listFromDb.find {
+                            it.id == item.id
+                        }
+                        if (foundItem == null) {
+                            catalogueViewModel.upsertItemToDb(
+                                id = item.id,
+                                oldPrice = item.price.price,
+                                newPrice = item.price.priceWithDiscount,
+                                discount = item.price.discount.toString(),
+                                title = item.title,
+                                subtitle = item.subtitle,
+                                rating = item.feedback.rating.toString(),
+                                feedBackCount = item.feedback.count.toString()
+                            )
+                        } else {
+                            catalogueViewModel.deleteItem(foundItem)
+                        }
+                    }
             )
         }
         Box(

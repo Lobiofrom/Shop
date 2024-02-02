@@ -75,6 +75,8 @@ dependencies {
     implementation(project(":feature_start"))
     implementation(project(":network"))
     implementation(project(":const_vals"))
+    implementation(project(":database"))
+
 
     //Koin
     implementation (libs.koin.androidx.compose)
