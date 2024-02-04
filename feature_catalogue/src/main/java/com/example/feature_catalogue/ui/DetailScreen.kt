@@ -38,6 +38,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -78,7 +80,7 @@ fun DetailScreen(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.back_arrow),
-                    contentDescription = "delete recipe",
+                    contentDescription = null,
                     tint = Color.Black,
                     modifier = Modifier
                         .padding(6.dp)
@@ -89,7 +91,7 @@ fun DetailScreen(
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.share),
-                    contentDescription = "delete recipe",
+                    contentDescription = null,
                     tint = Color.Black,
                     modifier = Modifier
                         .padding(6.dp)
@@ -195,7 +197,7 @@ fun DetailScreen(
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(1.dp)
+                                .padding(10.dp)
                                 .width(24.dp)
                                 .height(24.dp)
                                 .clickable {
@@ -261,7 +263,11 @@ fun DetailScreen(
                                 modifier = Modifier.padding(start = 3.dp, top = 6.dp)
                             )
                             Text(
-                                text = "Доступно для заказа ${item.available} штук",
+                                text = pluralStringResource(
+                                    id = R.plurals.order_quantity,
+                                    count = item.available,
+                                    item.available
+                                ),
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     lineHeight = 15.6.sp,
@@ -292,8 +298,12 @@ fun DetailScreen(
 
                                         )
                                 )
+
                                 Text(
-                                    text = "${item.feedback.count} отзыва",
+                                    text = pluralStringResource(
+                                        id = R.plurals.feedback_quantity,
+                                        count = item.feedback.count, item.feedback.count
+                                    ),
                                     style = TextStyle(
                                         fontSize = 12.sp,
                                         lineHeight = 15.6.sp,
@@ -364,7 +374,7 @@ fun DetailScreen(
                                 }
                             }
                             Text(
-                                text = "Описание",
+                                text = stringResource(R.string.description),
                                 style = TextStyle(
                                     fontSize = 16.sp,
                                     lineHeight = 20.8.sp,
@@ -435,7 +445,9 @@ fun DetailScreen(
                                 }
                             }
                             Text(
-                                text = if (expanded) "Скрыть" else "Подробнее",
+                                text = if (expanded) stringResource(R.string.hide) else stringResource(
+                                    R.string.more
+                                ),
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     lineHeight = 15.6.sp,
@@ -450,7 +462,7 @@ fun DetailScreen(
                                     }
                             )
                             Text(
-                                text = "Характеристики",
+                                text = stringResource(R.string.feat),
                                 style = TextStyle(
                                     fontSize = 16.sp,
                                     lineHeight = 20.8.sp,
@@ -476,7 +488,7 @@ fun DetailScreen(
                             .padding(start = 3.dp, end = 3.dp)
                     ) {
                         Text(
-                            text = "Состав",
+                            text = stringResource(R.string.inside),
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 lineHeight = 20.8.sp,
@@ -505,8 +517,9 @@ fun DetailScreen(
                             maxLines = if (expanded) Int.MAX_VALUE else 2
                         )
                         Text(
-                            text = if (expanded) "Скрыть" else "Подробнее",
-                            style = TextStyle(
+                            text = if (expanded) stringResource(R.string.hide) else stringResource(
+                                R.string.more
+                            ), style = TextStyle(
                                 fontSize = 12.sp,
                                 lineHeight = 15.6.sp,
                                 fontFamily = FontFamily(Font(R.font.regular)),
@@ -557,7 +570,7 @@ fun DetailScreen(
                                     .align(Alignment.CenterStart)
                             )
                             Text(
-                                text = "Добавить в корзину",
+                                text = stringResource(R.string.to_basket),
                                 style = TextStyle(
                                     fontSize = 14.sp,
                                     lineHeight = 18.2.sp,

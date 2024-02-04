@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -51,6 +56,9 @@ fun ProfileScreen(
     var listFromDb by remember {
         mutableStateOf<List<ItemFromDb>>(emptyList())
     }
+    var showConformation by remember {
+        mutableStateOf(false)
+    }
     LaunchedEffect(key1 = profileViewModel.itemList) {
         profileViewModel.itemList.collect {
             listFromDb = it
@@ -65,7 +73,7 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "Личный кабинет",
+                text = stringResource(id = R.string.cabinet),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(16.dp),
@@ -186,7 +194,7 @@ fun ProfileScreen(
                             .padding(start = 50.dp)
                     ) {
                         Text(
-                            text = "Избранное",
+                            text = stringResource(id = R.string.selection),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.2.sp,
@@ -200,7 +208,11 @@ fun ProfileScreen(
                         )
                         if (listFromDb.isNotEmpty()) {
                             Text(
-                                text = "${listFromDb.size} товар",
+                                text = pluralStringResource(
+                                    id = R.plurals.goods_quantity,
+                                    count = listFromDb.size,
+                                    listFromDb.size
+                                ),
                                 style = TextStyle(
                                     fontSize = 10.sp,
                                     lineHeight = 11.sp,
@@ -258,7 +270,7 @@ fun ProfileScreen(
                             .padding(start = 50.dp)
                     ) {
                         Text(
-                            text = "Магазины",
+                            text = stringResource(id = R.string.shops),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.2.sp,
@@ -315,7 +327,7 @@ fun ProfileScreen(
                             .padding(start = 50.dp)
                     ) {
                         Text(
-                            text = "Обратная связь",
+                            text = stringResource(id = R.string.feed),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.2.sp,
@@ -372,7 +384,7 @@ fun ProfileScreen(
                             .padding(start = 50.dp)
                     ) {
                         Text(
-                            text = "Оферта",
+                            text = stringResource(id = R.string.offer),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.2.sp,
@@ -429,7 +441,7 @@ fun ProfileScreen(
                             .padding(start = 50.dp)
                     ) {
                         Text(
-                            text = "Возврат товара",
+                            text = stringResource(id = R.string.back),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.2.sp,
@@ -455,6 +467,51 @@ fun ProfileScreen(
                 }
             }
         }
+        if (showConformation) {
+            AlertDialog(
+                onDismissRequest = { showConformation = false },
+                text = { Text(stringResource(R.string.sure)) },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            onClick()
+                            val editor = sharedPreferences.edit()
+                            editor.putString(FIRST_RUN, "")
+                            editor.putString(NAME, "")
+                            editor.putString(SURNAME, "")
+                            editor.putString(TEL_NUMBER, "")
+                            editor.apply()
+                            profileViewModel.clearDb()
+                            showConformation = false
+                        },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(15.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.LightGray
+                        )
+                    ) {
+                        Text(text = stringResource(R.string.exit), color = Color.DarkGray)
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { showConformation = false },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(15.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.LightGray
+                        )
+                    ) {
+                        Text(text = stringResource(R.string.cancel), color = Color.DarkGray)
+                    }
+                }
+            )
+        }
+
         Surface(
             color = Color(0xFFDEDEDE),
             shape = RoundedCornerShape(5.dp),
@@ -469,14 +526,7 @@ fun ProfileScreen(
                 )
                 .align(Alignment.BottomCenter)
                 .clickable {
-                    onClick()
-                    val editor = sharedPreferences.edit()
-                    editor.putString(FIRST_RUN, "")
-                    editor.putString(NAME, "")
-                    editor.putString(SURNAME, "")
-                    editor.putString(TEL_NUMBER, "")
-                    editor.apply()
-                    profileViewModel.clearDb()
+                    showConformation = true
                 }
         ) {
             Box(
@@ -488,7 +538,7 @@ fun ProfileScreen(
                         .align(Alignment.Center)
                 ) {
                     Text(
-                        text = "Выйти",
+                        text = stringResource(id = R.string.logout),
                         style = TextStyle(
                             fontSize = 14.sp,
                             lineHeight = 18.2.sp,

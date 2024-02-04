@@ -175,7 +175,7 @@ fun ProductItem(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(1.dp)
+                    .padding(6.dp)
                     .width(24.dp)
                     .height(24.dp)
                     .clickable {

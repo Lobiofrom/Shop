@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -43,31 +44,31 @@ fun MainScreen(
     val navController = rememberNavController()
     val naviItems = listOf(
         BottomNaviItem(
-            name = "Главная",
+            name = stringResource(id = R.string.main),
             route = "start",
             icon = R.drawable.home,
             unselectedIcon = R.drawable.home_pink
         ),
         BottomNaviItem(
-            name = "Каталог",
+            name = stringResource(id = R.string.catalogue),
             route = "catalogue",
             icon = R.drawable.catalog,
             unselectedIcon = R.drawable.home_pink
         ),
         BottomNaviItem(
-            name = "Корзина",
+            name = stringResource(id = R.string.basket),
             route = "basket",
             icon = R.drawable.basket,
             unselectedIcon = R.drawable.home_pink
         ),
         BottomNaviItem(
-            name = "Акции",
+            name = stringResource(id = R.string.discount),
             route = "discounts",
             icon = R.drawable.discount,
             unselectedIcon = R.drawable.home_pink
         ),
         BottomNaviItem(
-            name = "Профиль",
+            name = stringResource(id = R.string.profile),
             route = "profile",
             icon = R.drawable.profile,
             unselectedIcon = R.drawable.home_pink

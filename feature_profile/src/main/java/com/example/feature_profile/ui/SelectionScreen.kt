@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -54,13 +55,14 @@ fun SelectionScreen(
     var listFromDb by remember {
         mutableStateOf<List<ItemFromDb>>(emptyList())
     }
+
     LaunchedEffect(key1 = profileViewModel.itemList) {
         profileViewModel.itemList.collect {
             listFromDb = it
         }
     }
     var tabIndex by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Товары", "Бренды")
+    val tabs = listOf(stringResource(R.string.goods), stringResource(R.string.brands))
     val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -71,7 +73,7 @@ fun SelectionScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.back_arrow),
-                contentDescription = "delete recipe",
+                contentDescription = null,
                 tint = Color.Black,
                 modifier = Modifier
                     .padding(6.dp)
@@ -81,7 +83,7 @@ fun SelectionScreen(
                     }
             )
             Text(
-                text = "Избранное",
+                text = stringResource(R.string.selection2),
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(6.dp),

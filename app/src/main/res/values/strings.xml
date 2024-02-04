@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Shop</string>
+    <string name="main">Главная</string>
+    <string name="catalogue">Каталог</string>
+    <string name="basket">Корзина</string>
+    <string name="discount">Акции</string>
+    <string name="profile">Профиль</string>
+
 </resources>

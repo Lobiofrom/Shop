@@ -1,0 +1,23 @@
+<resources>
+    <plurals name="goods_quantity">
+        <item quantity="one">%1$d товар</item>
+        <item quantity="two">%1$d товара</item>
+        <item quantity="few">%1$d товара</item>
+        <item quantity="many">%1$d товаров</item>
+    </plurals>
+
+    <string name="cabinet">Личный кабинет</string>
+    <string name="selection">Избранное</string>
+    <string name="shops">Магазины</string>
+    <string name="feed">Обратная связь</string>
+    <string name="offer">Оферта</string>
+    <string name="back">Возврат товара</string>
+    <string name="logout">Выйти</string>
+    <string name="goods">Товары</string>
+    <string name="brands">Бренды</string>
+    <string name="selection2">Избранное</string>
+    <string name="sure">Вы уверены?</string>
+    <string name="exit">Выйти</string>
+    <string name="cancel">Отмена</string>
+
+</resources>

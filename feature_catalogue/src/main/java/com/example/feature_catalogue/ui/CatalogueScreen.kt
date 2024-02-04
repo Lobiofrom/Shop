@@ -1,6 +1,5 @@
 package com.example.feature_catalogue.ui
 
-import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -64,7 +64,10 @@ fun CatalogueScreen(
 
     val state = catalogueViewModel.state.collectAsState()
 
-    val menu = arrayOf("По популярности", "По уменьшению цены", "По возрастанию цены")
+    val menu = arrayOf(
+        stringResource(R.string.popular),
+        stringResource(R.string.price_down), stringResource(R.string.price_up)
+    )
     var selectedText by remember { mutableStateOf(menu[0]) }
     var expanded by remember {
         mutableStateOf(false)
@@ -72,7 +75,11 @@ fun CatalogueScreen(
 
     var tabIndex by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
-    val tabs = listOf("Смотреть все", "Лицо", "Тело", "Загар", "Маски")
+    val tabs = listOf(
+        stringResource(R.string.all),
+        stringResource(R.string.face), stringResource(R.string.body),
+        stringResource(R.string.sun), stringResource(R.string.mask)
+    )
 
     var filteredList by remember {
         mutableStateOf<List<Item>>(emptyList())
@@ -89,7 +96,7 @@ fun CatalogueScreen(
     if (showCatalogueScreen) {
         Column(modifier = Modifier.fillMaxSize()) {
             Text(
-                text = "Каталог",
+                text = stringResource(id = R.string.catalogue),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontFamily = FontFamily(
                     Font(R.font.medium)
@@ -167,7 +174,7 @@ fun CatalogueScreen(
                         .padding(top = 2.dp)
                 )
                 Text(
-                    text = "Фильтры",
+                    text = stringResource(id = R.string.filter),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .padding(end = 16.dp),
@@ -255,7 +262,6 @@ fun CatalogueScreen(
                 1 -> {
                     LaunchedEffect(Unit) {
                         catalogueViewModel.getFaceFilter()
-                        Log.d("getFaceFilter", "getFaceFilter=======")
                     }
                 }
 
@@ -299,7 +305,7 @@ fun CatalogueScreen(
                 is States.Success -> {
                     filteredList = currentState.items
                     when (selectedText) {
-                        "По популярности" -> {
+                        stringResource(id = R.string.popular) -> {
                             val rating = filteredList.sortedByDescending {
                                 it.feedback.rating
                             }
@@ -315,7 +321,7 @@ fun CatalogueScreen(
                             }
                         }
 
-                        "По уменьшению цены" -> {
+                        stringResource(id = R.string.price_down) -> {
                             val priceDescending = filteredList.sortedByDescending {
                                 it.price.priceWithDiscount.toInt()
                             }
@@ -329,7 +335,7 @@ fun CatalogueScreen(
                             }
                         }
 
-                        "По возрастанию цены" -> {
+                        stringResource(id = R.string.price_up) -> {
                             val priceAscending = filteredList.sortedBy {
                                 it.price.priceWithDiscount.toInt()
                             }
