@@ -24,11 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +44,6 @@ import coil.compose.AsyncImage
 import com.example.database.domain.models.ItemFromDb
 import com.example.feature_profile.R
 import com.example.feature_profile.viewmodel.ProfileViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -57,14 +52,7 @@ fun ProductFromDbItem(
     itemFromDb: ItemFromDb
 ) {
 
-    var listFromDb by remember {
-        mutableStateOf<List<ItemFromDb>>(emptyList())
-    }
-    LaunchedEffect(key1 = profileViewModel.itemList) {
-        profileViewModel.itemList.collect {
-            listFromDb = it
-        }
-    }
+    val listFromDb = profileViewModel.itemList.collectAsState()
 
     val pictures1 = listOf(
         R.drawable.razor,
@@ -165,7 +153,7 @@ fun ProductFromDbItem(
                 }
             }
             AsyncImage(
-                model = if (listFromDb.any {
+                model = if (listFromDb.value.any {
                         it.id == itemFromDb.id
                     }) R.drawable.red_heart else R.drawable.empty_heart,
                 contentDescription = null,
@@ -175,7 +163,7 @@ fun ProductFromDbItem(
                     .width(24.dp)
                     .height(24.dp)
                     .clickable {
-                        val foundItem = listFromDb.find {
+                        val foundItem = listFromDb.value.find {
                             it.id == itemFromDb.id
                         }
                         if (foundItem != null) {

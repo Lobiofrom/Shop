@@ -18,7 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +41,6 @@ import com.example.const_vals.FIRST_RUN
 import com.example.const_vals.NAME
 import com.example.const_vals.SURNAME
 import com.example.const_vals.TEL_NUMBER
-import com.example.database.domain.models.ItemFromDb
 import com.example.feature_profile.R
 import com.example.feature_profile.viewmodel.ProfileViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -53,17 +52,12 @@ fun ProfileScreen(
     onClick: () -> Unit,
     navController: NavController
 ) {
-    var listFromDb by remember {
-        mutableStateOf<List<ItemFromDb>>(emptyList())
-    }
+    val listFromDb = profileViewModel.itemList.collectAsState()
+
     var showConformation by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = profileViewModel.itemList) {
-        profileViewModel.itemList.collect {
-            listFromDb = it
-        }
-    }
+
     val name = sharedPreferences.getString(NAME, "")
     val surname = sharedPreferences.getString(SURNAME, "")
     val number = sharedPreferences.getString(TEL_NUMBER, "")
@@ -206,12 +200,12 @@ fun ProfileScreen(
                             modifier = Modifier
                                 .padding(start = 6.dp)
                         )
-                        if (listFromDb.isNotEmpty()) {
+                        if (listFromDb.value.isNotEmpty()) {
                             Text(
                                 text = pluralStringResource(
                                     id = R.plurals.goods_quantity,
-                                    count = listFromDb.size,
-                                    listFromDb.size
+                                    count = listFromDb.value.size,
+                                    listFromDb.value.size
                                 ),
                                 style = TextStyle(
                                     fontSize = 10.sp,

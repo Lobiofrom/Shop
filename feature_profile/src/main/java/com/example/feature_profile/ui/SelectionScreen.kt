@@ -21,10 +21,9 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -41,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.database.domain.models.ItemFromDb
 import com.example.feature_profile.R
 import com.example.feature_profile.viewmodel.ProfileViewModel
 import kotlinx.coroutines.launch
@@ -52,15 +50,8 @@ fun SelectionScreen(
     profileViewModel: ProfileViewModel = koinViewModel(),
     navController: NavController
 ) {
-    var listFromDb by remember {
-        mutableStateOf<List<ItemFromDb>>(emptyList())
-    }
+    val listFromDb = profileViewModel.itemList.collectAsState()
 
-    LaunchedEffect(key1 = profileViewModel.itemList) {
-        profileViewModel.itemList.collect {
-            listFromDb = it
-        }
-    }
     var tabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(R.string.goods), stringResource(R.string.brands))
     val scope = rememberCoroutineScope()
@@ -154,7 +145,7 @@ fun SelectionScreen(
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                 ) {
-                    items(listFromDb) {
+                    items(listFromDb.value) {
                         ProductFromDbItem(itemFromDb = it, profileViewModel = profileViewModel)
                     }
                 }
