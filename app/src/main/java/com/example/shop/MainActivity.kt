@@ -4,15 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.example.const_vals.PREFS
 import com.example.shop.presentation.MyApp
@@ -29,26 +24,25 @@ class MainActivity : ComponentActivity() {
         val sharedPrefs = getSharedPreferences(PREFS, MODE_PRIVATE)
 
         setContent {
-            Box(
-                Modifier
-                    .background(Color(0xFFD62F89))
-                    .statusBarsPadding()
-            ) {
-                Box(
-                    Modifier
-                        .background(Color(0xFFD62F89))
-                        .navigationBarsPadding()
-                ) {
-                    ShopTheme {
-                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                            MyApp(
-                                modifier = Modifier.padding(innerPadding),
-                                sharedPrefs = sharedPrefs
-                            )
-                        }
-                    }
+//            Box(
+//                Modifier
+//                    .background(Color(0xFFD62F89))
+//                    .statusBarsPadding()
+//            ) {
+//                Box(
+//                    Modifier
+//                        .background(Color(0xFFD62F89))
+//                        .navigationBarsPadding()
+//                ) {
+            ShopTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    MyApp(
+                        modifier = Modifier.padding(innerPadding),
+                        sharedPrefs = sharedPrefs
+                    )
                 }
             }
         }
     }
 }
+    
