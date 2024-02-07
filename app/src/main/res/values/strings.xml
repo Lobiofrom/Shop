@@ -5,5 +5,7 @@
     <string name="basket">Корзина</string>
     <string name="discount">Акции</string>
     <string name="profile">Профиль</string>
+    <string name="enter">Нажимая кнопку “Войти”, Вы принимаете</string>
+    <string name="terms">условия программы лояльности</string>
 
 </resources>

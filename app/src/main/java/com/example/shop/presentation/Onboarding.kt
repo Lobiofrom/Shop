@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -206,7 +207,7 @@ fun Onboarding(
                 .padding(bottom = 6.dp)
         ) {
             Text(
-                text = "Нажимая кнопку “Войти”, Вы принимаете",
+                text = stringResource(R.string.enter),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontSize = 10.sp,
@@ -216,7 +217,7 @@ fun Onboarding(
                 color = Color.LightGray
             )
             Text(
-                text = "условия программы лояльности",
+                text = stringResource(R.string.terms),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 fontSize = 10.sp,
