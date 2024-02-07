@@ -5,7 +5,10 @@ import android.content.SharedPreferences
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewDynamicColors
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -32,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.shop.R
 import com.example.shop.bottom_navigation.BottomNaviItem
 import com.example.shop.bottom_navigation.Navigation
+import com.example.shop.ui.theme.ShopTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -95,6 +104,7 @@ fun MainScreen(
                             .border(1.dp, Color.LightGray)
                     )
                     NavigationBar(
+                        modifier = Modifier.height(55.dp),
                         tonalElevation = 0.dp,
                         contentColor = MaterialTheme.colorScheme.background,
                     ) {
