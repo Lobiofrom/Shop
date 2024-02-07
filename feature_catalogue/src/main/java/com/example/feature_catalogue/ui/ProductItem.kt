@@ -51,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProductItem(
     item: Item,
     catalogueViewModel: CatalogueViewModel = koinViewModel(),
-    onItemClick: () -> Unit
+    onItemClick: (Item) -> Unit
 ) {
 
     val listFromDb = catalogueViewModel.itemList.collectAsState()
@@ -102,7 +102,7 @@ fun ProductItem(
             )
             .width(168.dp)
             .height(287.dp)
-            .clickable { onItemClick() },
+            .clickable { onItemClick(item) },
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFFFFFF)
         )
