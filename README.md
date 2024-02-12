@@ -15,7 +15,12 @@ Room,
 Coil,
 Retrofit.
 
+Figma link:
+
+https://www.figma.com/file/93i2H5UaEAevo6zDnW6FQL/Effective-Mobile.-%D0%A2%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%BE%D0%B2-(Copy)?type=design&node-id=0%3A1&mode=design&t=EjN6YtzB0P9E54Bn-1
+
 Screen shots:
+
 ![1](https://github.com/Lobiofrom/Shop/assets/124072945/919a0920-8314-47f8-b114-ff67b25adc49)
 ![2](https://github.com/Lobiofrom/Shop/assets/124072945/64201990-6d8a-4bdf-b906-e9f0a041dc7f)
 ![3](https://github.com/Lobiofrom/Shop/assets/124072945/9f4c367e-fb0f-400b-9c7f-d2821c3e27bb)
